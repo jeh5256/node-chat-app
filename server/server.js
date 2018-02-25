@@ -15,13 +15,33 @@ io.on('connection', (socket) => {
     console.log('new user connected');
 
     socket.emit('newMessage', {
-        from: 'Repo',
-        text: 'This is Reeps',
-        createAt: new Date()
+        from: 'Admin',
+        message: 'Welcome to the chat app',
+        createAt: new Date().getTime()
     });
+
+    socket.broadcast.emit('newMessage', {
+        from: 'Admin',
+        text: 'New user has joined',
+        createAt: new Date().getTime()
+    });
+
+    
 
     socket.on('createMessage', (message) => {
         console.log('createEmail', message);
+
+        io.emit('newMessage', {
+            from: message.from,
+            text: message.text,
+            createdAt: new Date().getime()
+        });
+
+        // socket.broadcast.emit('newMessage', {
+        //     from: message.from,
+        //     text: message.text,
+        //     createAt: new Date().getTime()
+        // });
     });
 });
 
