@@ -5,7 +5,7 @@ const socketIO = require('socket.io');
 
 const publicPath = path.join(__dirname, '../public');
 const port = process.env.PORT || 3000;
-var {generateMessage} = require('./utils/message');
+var {generateMessage, generateLocationMessage} = require('./utils/message');
 var app = express();
 var server = http.createServer(app);
 var io = socketIO(server);
@@ -23,16 +23,15 @@ io.on('connection', (socket) => {
         console.log('createEmail', message);
 
         io.emit('newMessage', generateMessage(message.from, message.text));
-        callback('This is from the server');
+        callback('This is from the server');        
+    });
 
-        // socket.broadcast.emit('newMessage', {
-        //     from: message.from,
-        //     text: message.text,
-        //     createAt: new Date().getTime()
-        // });
+    socket.on('createLocationMessage', (coords) => {
+        console.log('klawdmwdkm');
+        io.emit('newLocationMessage', generateLocationMessage('Admin', coords.latitude, coords.longitude));
     });
 });
 
 server.listen(3000, () => {
     console.log(`Server is up on port ${port}`);
-})
+});
