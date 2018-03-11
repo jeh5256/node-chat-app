@@ -27,8 +27,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on('createLocationMessage', (coords) => {
-        console.log('klawdmwdkm');
-        io.emit('newLocationMessage', generateLocationMessage('Admin', coords.latitude, coords.longitude));
+        io.emit('newLocationMessage', generateLocationMessage('Admin: ', coords.latitude, coords.longitude));
     });
 });
 
